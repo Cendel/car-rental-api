@@ -29,3 +29,22 @@ class RegisterSerializer(serializers.ModelSerializer):  # kayit islemi icin
         return user
 
 
+class CustomLoginSerializer(serializers.Serializer):  # burada authentication islemi yapacagimiz, dolayisiyla burada döndürülecek bir sey olmadigi icin ModelSerializer degil, Serializer kullandik
+    # bize kullanicidan bir email ve password gelecek, bunlari karsilamak icin:
+    email = serializers.EmailField()
+    password = serializers.CharField()
+
+    # validate islemi icin:
+    def validate(self, attrs):
+        email = attrs.get('email')
+        password = attrs.get('password')  # validate edecegimiz degerleri aldik
+
+        if email and password:  # eger bunlar varsa:
+            user = authenticate(request=self.context.get('request'), email=email, password=password)  # yukarida import ettigimiz authenticate fonksiyonunu kullandik
+            if not user:
+                raise serializers.ValidationError('Invalid email or password')
+            attrs['user'] = user  # bu noktada user authenticate edildigi icin artik onu deger olarak atadik
+            return attrs
+        else:
+            raise serializers.ValidationError('Both email and password are required')
+
