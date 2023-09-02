@@ -48,3 +48,32 @@ class CustomLoginSerializer(serializers.Serializer):  # burada authentication is
         else:
             raise serializers.ValidationError('Both email and password are required')
 
+        # token'in süresi ve daha bircok ayar icin, simplejwt dökümantasyonunu inceleyebilirsin.
+
+
+class UserSerializer(serializers.ModelSerializer):
+    # ÖNEMLI: API dökümantasyonunda roles variable'i bir liste seklinde fakat SQLite liste, array gibi karmasik veri tiplerini desteklemiyor. Dolayisiyla burada, bizim roles yapimizi SQLite'in kabul edecegi bir formatta yazacagiz. diger degiskenlerde problem olmadigi icin onlari herhangi bir isleme sokmadan modelimizden alacagiz
+    # bizim burada roles üzerinde yapacagimiz islem, liste'yi alip string'e cevirecek ve veritabaninda o sekilde tutacak, response gönderilirken de onu veritabanindan alip listeye cevirecek.
+    # normalde django icin böyle bir role variable ina ihtiyac yok. dökümantasyon java icin üretildigi ve frontend de java api'yina göre yapildigi icin bunu eklemek zorunda kaldik.
+    roles = serializers.ListField(
+        child=serializers.CharField(max_length=100),
+        allow_empty=False,
+        required=False,
+    )
+
+    class Meta:
+        model = User
+        fields = ('id', 'firstName', 'lastName', 'address', 'zipCode', 'phoneNumber', 'builtIn', 'roles', 'email')
+
+    # response'dan önce, roles degiskenimizi tekrar bir listeye cevirmek icin asagida, serializer'in response gönderen fonksiyonu üzerinde düzenleme yapiyoruz:
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        roles_str = data.pop('roles')
+        roles_list = "".join(roles_str).replace("[", "").replace("]", "").replace("'", "")
+        roles_list = roles_list.split(",")
+        data['roles'] = roles_list
+
+        return data
+
+
+
