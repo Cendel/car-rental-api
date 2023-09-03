@@ -76,4 +76,37 @@ class UserSerializer(serializers.ModelSerializer):
         return data
 
 
+class ChangePasswordSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True, required=True, validators=[validate_password])  # validators parametresi, parola dogrulama islemi icin validate_password fonksiyonunu kullanacagini belirtiyor.
+    old_password = serializers.CharField(write_only=True, required=True)
+    confirmPassword = serializers.CharField(write_only=True, required=True)
+
+    class Meta:
+        model = User
+        fields = ('old_password', 'password', 'confirmPassword')
+
+    def validate(self, attrs):
+        if attrs['password'] != attrs['confirmPassword']:
+            raise serializers.ValidationError({'password:', 'Password fields did not match.'})
+        return attrs
+
+    def validate_old_password(self, value):
+        user = self.context['request'].user  # mevcut kullaniciyi aldik
+        if not user.check_password(value):  # value (eski şifre) ile kullanıcının şifresini karşılaştırır
+            raise serializers.ValidationError({"oldpassword": "Old password is not correct"})
+        return value
+
+    def update(self, instance, validated_data):
+        user_pk = self.context['request'].user.pk
+        password = validated_data.pop('password')
+        if user_pk == instance.pk:  # mevcut kullanıcının kimliği ile veritabanındaki kullanıcının kimliğini karşılaştırır
+            instance.set_password(password)
+            instance.save()
+        return instance
+
+
+
+
+
+
 

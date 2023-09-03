@@ -1,11 +1,12 @@
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import AccessToken
 from .models import User
-from .serializers import RegisterSerializer, CustomLoginSerializer, UserSerializer
-from rest_framework.generics import CreateAPIView, ListAPIView
-from rest_framework import generics
+from .serializers import RegisterSerializer, CustomLoginSerializer, UserSerializer, ChangePasswordSerializer
+from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveUpdateDestroyAPIView, UpdateAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
+from rest_framework import filters
+from rest_framework.permissions import IsAuthenticated
 import math
 
 # Create your views here.
@@ -37,8 +38,12 @@ class LoginView(TokenObtainPairView):
 
 
 # user(lar)imizi listeleyecek class larimizi yaziyoruz:
-class UserListAPIView(ListAPIView):
+class UserListAPIView(ListAPIView):  # burada yapilacaklar: 1- tek bir user 2- bütün userlar ve 3- pagination halinde bütün userlar getirme
     serializer_class = UserSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ["firstName", "email"]
+    # yukaridaki iki satiri, filters modülüne örnek olarak verdik, buradaki kodlarimiz ile baglantisi yok.
+    # bunun haricinde, django-filter kütüphanesi daha ayrintili filtreler sunan, daha gelismis bir kütüphane.
 
     # get_queryset fonksiyonunu, kullanacagimiz queryset'leri duruma göre belirleyecek sekilde eziyoruz:
     def get_queryset(self):
@@ -59,7 +64,7 @@ class UserListAPIView(ListAPIView):
             # Get the query parameters from the request
             page = request.query_params.get('page', 1)
             size = request.query_params.get('size', 10)
-            sort = request.query_params.get('sort', 'id')
+            sort = request.query_params.get('sort', 'id')  # sort islemini id'ye göre yap dedik. buradaki ayarlar degistirilebilir.
             direction = request.query_params.get('direction', 'asc')
 
             # Convert the query parameters to the appropriate types
@@ -122,5 +127,27 @@ class UserListAPIView(ListAPIView):
             }
             return Response(data)
         return super().list(request, *args, **kwargs)
+
+
+class UserDetail(RetrieveUpdateDestroyAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+class ChangePasswordView(UpdateAPIView):
+    serializer_class = ChangePasswordSerializer
+    permission_classes = [IsAuthenticated]  # yalnızca kimlik doğrulama yapılmış kullanıcıların bu görünüme erişebileceğini belirtir.
+
+    def get_object(self):  # get_object fonksiyonu, görünümün işlem yapılacak nesnesini döndürür. Burada self.request.user kullanılarak, isteği gönderen kullanıcının nesnesi (User modeli) alınır. Bu, şifre değiştirme işlemi yapılacak olan kullanıcıyı temsil eder
+        return self.request.user
+
+    def put(self, request, *args, **kwargs):  # put fonksiyonu, HTTP PUT isteği geldiğinde bu görünümün çağrılmasını sağlar. Aslında, bu fonksiyon sadece update fonksiyonunu çağırır ve işlemi başlatır.
+        return self.update(request, *args, **kwargs)
+
+    def update(self, request, *args, **kwargs):  # update fonksiyonu, yeni şifre verilerini alarak şifre değiştirme işlemini gerçekleştirir.
+        data = super().update(request, *args, **kwargs)  # super().update() çağrısı, UpdateAPIView sınıfının varsayılan update işlemini çağırır ve şifre değiştirme işlemini gerçekleştirir.
+        return Response({"update": "succesful", "success": True})  # Son olarak, işlem başarıyla tamamlandığında bir JSON yanıtı döndürülür.
+
+
+
 
 
