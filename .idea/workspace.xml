@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="12c23bc9-8a6a-4e59-8805-9228c6c1c509" name="Changes" comment="complete users app">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="12c23bc9-8a6a-4e59-8805-9228c6c1c509" name="Changes" comment="start contactmessages app">
+      <change afterPath="$PROJECT_DIR$/contactmessages/serializers.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contactmessages/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/urls.py" afterDir="false" />
     </list>
@@ -42,6 +43,9 @@
   "associatedIndex": 4
 }]]></component>
   <component name="ProjectId" id="2UnsFAUwPCrZaBVwuUk2onj4R7g" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -128,7 +132,15 @@
       <option name="project" value="LOCAL" />
       <updated>1693758167617</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="start contactmessages app">
+      <option name="closed" value="true" />
+      <created>1693764811946</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1693764811946</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -137,6 +149,7 @@
     <MESSAGE value="add login" />
     <MESSAGE value="add UserListAPIView" />
     <MESSAGE value="complete users app" />
-    <option name="LAST_COMMIT_MESSAGE" value="complete users app" />
+    <MESSAGE value="start contactmessages app" />
+    <option name="LAST_COMMIT_MESSAGE" value="start contactmessages app" />
   </component>
 </project>
