@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     # my apps
     'contactmessages',
     "car_images",
+    'cars',
 ]
 
 AUTH_USER_MODEL = 'users.User'

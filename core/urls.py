@@ -24,6 +24,7 @@ urlpatterns = [
     path('', include("users.urls"), name="users"),
     path('contactmessage/', include("contactmessages.urls"), name="contactmessages"),
     path('files/', include('car_images.urls'), name='car_images'),  # dökümantasyon'da image'lerin url'si icin files/ kullanmamizi istiyor...
+    path('car/', include('cars.urls'), name='cars'),
 ]
 
 if settings.DEBUG:    # static'i ve settings'i yukarida import ettik.
