@@ -3,7 +3,7 @@ from django.db import models
 # Create your models here.
 
 TRANSMISSION = (
-    ('a', 'Automatic'),
+    ('a', 'Automatic'),  # veritabaninda "a" olarak kayitli olacak, secenek belirtme ekraninda uzun hali görülecek. böylece veritabaninda gereksiz yer kaplamayacak.
     ('m', 'Manual'),
     ('t', 'Tiptronic'),
 )
