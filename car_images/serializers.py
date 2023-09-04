@@ -15,3 +15,7 @@ class ImageSerializer(serializers.ModelSerializer):
         url = base_str + "" + str(obj.image)
         return url
 
+
+
+
+

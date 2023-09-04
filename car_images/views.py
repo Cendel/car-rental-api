@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from rest_framework.generics import CreateAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView
 from rest_framework.parsers import MultiPartParser, FormParser
 from .models import Image
 from .serializers import ImageSerializer
@@ -26,6 +26,10 @@ class UploadFileView(CreateAPIView):
                             },status=201)
         else:
             return Response(file_serializer.errors, status=400)
+
+class ListAllFilesView(ListAPIView):
+    queryset= Image.objects.all()
+    serializer_class=ImageSerializer
 
 
 
