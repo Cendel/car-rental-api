@@ -16,9 +16,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf.urls.static import static
+from core import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include("users.urls"), name="users"),
     path('contactmessage/', include("contactmessages.urls"), name="contactmessages"),
+    path('files/', include('car_images.urls'), name='car_images'),  # dökümantasyon'da image'lerin url'si icin files/ kullanmamizi istiyor...
 ]
+
+if settings.DEBUG:    # static'i ve settings'i yukarida import ettik.
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)
