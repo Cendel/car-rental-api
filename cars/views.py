@@ -1,10 +1,9 @@
 import math
-from rest_framework.generics import CreateAPIView, RetrieveAPIView, ListAPIView, DestroyAPIView
+from rest_framework.generics import CreateAPIView, RetrieveAPIView, ListAPIView, DestroyAPIView, UpdateAPIView
 from .models import Car
 from .serializers import CarSerializer
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework import generics
 from rest_framework import status
 
 
@@ -104,7 +103,7 @@ class CarDeleteView(DestroyAPIView):
         return Response({"message": "Car deleteted successfully", "success": True})
 
 
-class CarUpdateView(generics.UpdateAPIView):
+class CarUpdateView(UpdateAPIView):
     queryset = Car.objects.all()
     serializer_class = CarSerializer
 

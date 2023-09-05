@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'contactmessages',
     "car_images",
     'cars',
+    'reservations',
 ]
 
 AUTH_USER_MODEL = 'users.User'

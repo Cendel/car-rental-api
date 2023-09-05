@@ -26,9 +26,9 @@ class CarSerializer(serializers.ModelSerializer):
         representation = super().to_representation(instance)  # üst sınıfın to_representation metodu çağrılır ve nesnenin temsili alınır.
         image = representation.get('image')  # Temsilde 'image' alanını alır.
         if image:
-            representation['image'] = [image]
+            representation['image'] = [image]  # image'i array icine aldik. cünkü frontend bizden array icerisinde göndermemizi istiyor.
         else:
-            representation['image'] = []
+            representation['image'] = []  # eger image yok ise, bos bir array gönder
         return representation
 
 

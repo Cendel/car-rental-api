@@ -1,6 +1,23 @@
 from django.db import models
 
-# Create your models here.
+# dokümantasyonda bizden istenen car modeli:
+
+# {
+#   "id": 0,
+#   "model": "string",
+#   "doors": 0,
+#   "seats": 0,
+#   "luggage": 0,
+#   "transmission": "string",
+#   "airConditioning": true,
+#   "age": 0,
+#   "pricePerHour": 0,
+#   "fuelType": "string",
+#   "builtIn": true,
+#   "image": [
+#     "string"
+#   ]
+# }
 
 TRANSMISSION = (
     ('a', 'Automatic'),  # veritabaninda "a" olarak kayitli olacak, secenek belirtme ekraninda uzun hali görülecek. böylece veritabaninda gereksiz yer kaplamayacak.
