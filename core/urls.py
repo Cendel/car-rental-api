@@ -26,6 +26,7 @@ urlpatterns = [
     path('files/', include('car_images.urls'), name='car_images'),  # dökümantasyon'da image'lerin url'si icin files/ kullanmamizi istiyor...
     path('car/', include('cars.urls'), name='cars'),
     path('reservations/', include('reservations.urls'), name='reservations'),
+    path('excel/', include('excel.urls'), name='excel'),
 ]
 
 

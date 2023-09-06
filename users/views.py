@@ -2,7 +2,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import AccessToken
 from .models import User
 from .serializers import RegisterSerializer, CustomLoginSerializer, UserSerializer, ChangePasswordSerializer
-from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveUpdateDestroyAPIView, UpdateAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveUpdateDestroyAPIView, UpdateAPIView, RetrieveUpdateAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework import filters
@@ -146,6 +146,20 @@ class ChangePasswordView(UpdateAPIView):
     def update(self, request, *args, **kwargs):  # update fonksiyonu, yeni şifre verilerini alarak şifre değiştirme işlemini gerçekleştirir.
         data = super().update(request, *args, **kwargs)  # super().update() çağrısı, UpdateAPIView sınıfının varsayılan update işlemini çağırır ve şifre değiştirme işlemini gerçekleştirir.
         return Response({"update": "succesful", "success": True})  # Son olarak, işlem başarıyla tamamlandığında bir JSON yanıtı döndürülür.
+
+
+class UpdateUserView(RetrieveUpdateAPIView):
+    serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        self.kwargs['pk'] = self.request.user.id
+        queryset = User.objects.all()
+        return queryset
+
+    def update(self, request, *args, **kwargs):
+        super().update(request, *args, **kwargs)
+        return Response({'message': 'User updated succesfully', 'success': True})
 
 
 

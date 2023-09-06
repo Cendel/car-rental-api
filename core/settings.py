@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     "car_images",
     'cars',
     'reservations',
+    'excel',
 ]
 
 AUTH_USER_MODEL = 'users.User'
