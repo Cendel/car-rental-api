@@ -34,7 +34,6 @@ class ReservationSerializer(serializers.ModelSerializer):
         }
 
     def get_userId(self, obj):
-        print(obj)
         return obj.user.id
 
     def validate_pickUpTime(self, value):
@@ -79,8 +78,10 @@ class ReservationSerializer(serializers.ModelSerializer):
             pick_up_time = validated_data['pickUpTime']
             drop_off_time = validated_data['dropOffTime']
             price_per_hour = float(car.pricePerHour)
+
             # Calculate total hours
             total_hours = (drop_off_time - pick_up_time).total_seconds() / 3600
+
             # Calculate total price
             total_price = Decimal(total_hours) * Decimal(price_per_hour)
 
@@ -96,10 +97,10 @@ class ReservationSerializer(serializers.ModelSerializer):
         pick_up_time = validated_data['pickUpTime']
         drop_off_time = validated_data['dropOffTime']
         price_per_hour = float(car.pricePerHour)
-        print(price_per_hour)
+
         # Calculate total hours
         total_hours = (drop_off_time - pick_up_time).total_seconds() / 3600
-        print(total_hours)
+
         # Calculate total price
         total_price = Decimal(total_hours) * Decimal(price_per_hour)
 
